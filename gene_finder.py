@@ -10,7 +10,8 @@ Created on Sun Feb  2 11:24:42 2014
 #from amino_acids import aa, codons, aa_table
 import random
 from load import load_seq
-import re
+from amino_acids import aa_table
+
 
 
 def shuffle_string(s):
@@ -198,8 +199,10 @@ def longest_ORF(dna):
     >>> longest_ORF("ATGCGAATGTAGCATCAAA")
     'ATGCTACATTCGCAT'
     """
-    # TODO: implement this
-    pass
+
+    ORF_list = find_all_ORFs_both_strands(dna)
+    return max(ORF_list, key = len)
+
 
 
 def longest_ORF_noncoding(dna, num_trials):
@@ -209,8 +212,19 @@ def longest_ORF_noncoding(dna, num_trials):
         dna: a DNA sequence
         num_trials: the number of random shuffles
         returns: the maximum length longest ORF """
-    # TODO: implement this
-    pass
+
+    random_dna_list =  []
+
+    for i in range(num_trials):
+        print i
+        random_dna =  shuffle_string(dna)
+        random_dna_list.append(longest_ORF(random_dna))
+
+
+    longest = max(random_dna_list, key = len)
+    return len(longest)
+    
+
 
 def coding_strand_to_AA(dna):
     """ Computes the Protein encoded by a sequence of DNA.  This function
@@ -226,8 +240,18 @@ def coding_strand_to_AA(dna):
         >>> coding_strand_to_AA("ATGCCCGCTTT")
         'MPA'
     """
-    # TODO: implement this
-    pass
+    length = len(dna)
+    a = 0
+    b = 3
+
+    amino_acids = ''   
+
+    while b < length+1:
+            amino_acids = amino_acids + aa_table[dna[a:b]]
+            a += 3
+            b += 3
+
+    return amino_acids
 
 def gene_finder(dna, threshold):
     """ Returns the amino acid sequences coded by all genes that have an ORF
@@ -239,6 +263,8 @@ def gene_finder(dna, threshold):
         returns: a list of all amino acid sequences whose ORFs meet the minimum
                  length specified.
     """
+
+
     # TODO: implement this
     pass
 
@@ -246,4 +272,9 @@ if __name__ == "__main__":
     import doctest
     doctest.testmod()
 
-    print find_all_ORFs_both_strands("ATGCGAATGTAGCATCAAA")
+#the_dna = load_seq
+threshold_length = longest_ORF_noncoding("ATGCCCGCTTT", 1500)
+print threshold_length
+#gene_finder(the_dna, threshold_length)
+
+#print coding_strand_to_AA("ATGCCCGCTTT")
