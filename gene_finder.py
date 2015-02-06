@@ -11,7 +11,7 @@ Created on Sun Feb  2 11:24:42 2014
 import random
 from load import load_seq
 from amino_acids import aa_table
-
+dna = load_seq("./data/X73525.fa")
 
 
 def shuffle_string(s):
@@ -201,7 +201,8 @@ def longest_ORF(dna):
     """
 
     ORF_list = find_all_ORFs_both_strands(dna)
-    return max(ORF_list, key = len)
+    if len(ORF_list) > 1:
+        return max(ORF_list, key = len)
 
 
 
@@ -216,10 +217,9 @@ def longest_ORF_noncoding(dna, num_trials):
     random_dna_list =  []
 
     for i in range(num_trials):
-        print i
         random_dna =  shuffle_string(dna)
-        random_dna_list.append(longest_ORF(random_dna))
-
+        if random_dna != None:
+            random_dna_list.append(longest_ORF(random_dna))
 
     longest = max(random_dna_list, key = len)
     return len(longest)
@@ -265,16 +265,27 @@ def gene_finder(dna, threshold):
     """
 
 
-    # TODO: implement this
-    pass
+    ORFs = find_all_ORFs_both_strands(dna)
+    sig_AAs = []
+
+    for entry in ORFs:
+        if len(entry) > threshold:
+            AA = coding_strand_to_AA(entry)
+            sig_AAs.append(AA)
+
+    return sig_AAs
+
+
+
 
 if __name__ == "__main__":
     import doctest
     doctest.testmod()
 
-#the_dna = load_seq
-threshold_length = longest_ORF_noncoding("ATGCCCGCTTT", 1500)
-print threshold_length
+threshold_length = longest_ORF_noncoding(dna, 1500)
+print gene_finder(dna, threshold_length)
+#print coding_strand_to_AA(dna)
+
 #gene_finder(the_dna, threshold_length)
 
 #print coding_strand_to_AA("ATGCCCGCTTT")
