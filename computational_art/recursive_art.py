@@ -20,19 +20,31 @@ def build_random_function(min_depth, max_depth):
         ["x"],
         ["y"],
         # ["x/2", ["a"]],
-        # ["prod", ["a"], ["b"]],
+        ["prod"],
         ["sin_pi"],
         ["cos_pi"],
-        ["avg"]
+        ["avg"],
+        ["tan_pi"]
         ]
 
     f = random.choice(possible_fuctions)
 
     if f == ["sin_pi"]:
         f.append(build_random_function(min_depth, max_depth))
+    if f == ["cos_pi"]:
+        f.append(build_random_function(min_depth, max_depth))
+    if f == ["tan_pi"]:
+        f.append(build_random_function(min_depth, max_depth))
     if f == ["avg"]:
         f.append(build_random_function(min_depth, max_depth))
         f.append(build_random_function(min_depth, max_depth))
+    if f == ["prod"]:
+        f.append(build_random_function(min_depth, max_depth))
+        f.append(build_random_function(min_depth, max_depth))
+
+    min_depth = min_depth - 1
+    max_depth = max_depth - 1
+
     return f
     pass
 
@@ -57,9 +69,14 @@ def evaluate_random_function(f, x, y):
         return y
     elif f[0] == "sin_pi":
         return math.sin(math.pi*evaluate_random_function(f[1], x, y))
+    elif f[0] == "cos_pi":
+        return math.cos(math.pi*evaluate_random_function(f[1], x, y))
+    elif f[0] == "tan_pi":
+        return math.tan(math.pi*evaluate_random_function(f[1], x, y))
     elif f[0] == "avg":
         return .5*(evaluate_random_function(f[1], x, y) + evaluate_random_function(f[2], x, y))
-    # TODO: implement this
+    elif f[0] == "prod":
+        return (evaluate_random_function(f[1], x, y) * evaluate_random_function(f[2], x, y))
     pass
 
 
