@@ -26,27 +26,30 @@ def build_random_function(min_depth, max_depth):
         ["avg"],
         ["tan_pi"]
         ]
-
-    f = random.choice(possible_fuctions)
-
-    if f == ["sin_pi"]:
-        f.append(build_random_function(min_depth, max_depth))
-    if f == ["cos_pi"]:
-        f.append(build_random_function(min_depth, max_depth))
-    if f == ["tan_pi"]:
-        f.append(build_random_function(min_depth, max_depth))
-    if f == ["avg"]:
-        f.append(build_random_function(min_depth, max_depth))
-        f.append(build_random_function(min_depth, max_depth))
-    if f == ["prod"]:
-        f.append(build_random_function(min_depth, max_depth))
-        f.append(build_random_function(min_depth, max_depth))
-
     min_depth = min_depth - 1
     max_depth = max_depth - 1
 
+    if max_depth < 0:
+        return random.choice(possible_fuctions[:2])
+    elif min_depth < 0:
+        f = random.choice(possible_fuctions)
+    else:
+        f = random.choice(possible_fuctions[2:])
+
+    if f == ["sin_pi"]:
+        f.append(build_random_function(min_depth, max_depth))
+    elif f == ["cos_pi"]:
+        f.append(build_random_function(min_depth, max_depth))
+    elif f == ["tan_pi"]:
+        f.append(build_random_function(min_depth, max_depth))
+    elif f == ["avg"]:
+        f.append(build_random_function(min_depth, max_depth))
+        f.append(build_random_function(min_depth, max_depth))
+    elif f == ["prod"]:
+        f.append(build_random_function(min_depth, max_depth))
+        f.append(build_random_function(min_depth, max_depth))
+
     return f
-    pass
 
 
 def evaluate_random_function(f, x, y):
@@ -77,7 +80,6 @@ def evaluate_random_function(f, x, y):
         return .5*(evaluate_random_function(f[1], x, y) + evaluate_random_function(f[2], x, y))
     elif f[0] == "prod":
         return (evaluate_random_function(f[1], x, y) * evaluate_random_function(f[2], x, y))
-    pass
 
 
 def remap_interval(val, input_interval_start, input_interval_end, output_interval_start, output_interval_end):
@@ -124,7 +126,6 @@ def color_map(val):
         >>> color_map(0.5)
         191
     """
-    # NOTE: This relies on remap_interval, which you must provide
     color_code = remap_interval(val, -1, 1, 0, 255)
     return int(color_code)
 
@@ -187,7 +188,7 @@ if __name__ == '__main__':
     # Create some computational art!
     # TODO: Un-comment the generate_art function call after you
     #       implement remap_interval and evaluate_random_function
-    generate_art("myart.png")
+    generate_art("lucyart.png")
 
     # Test that PIL is installed correctly
     # TODO: Comment or remove this function call after testing PIL install
