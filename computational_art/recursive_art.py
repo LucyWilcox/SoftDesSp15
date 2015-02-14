@@ -1,4 +1,7 @@
-""" TODO: Put your header comment here """
+""" Assignment creates a random image using recursion. The image is saved in working directory.
+Image name can be changed near the end of the file in generate_art("choosename").
+
+"""
 
 import random
 import math
@@ -19,7 +22,7 @@ def build_random_function(min_depth, max_depth):
     possible_fuctions = [
         ["x"],
         ["y"],
-        # ["x/2", ["a"]],
+        ["x/2"],
         ["prod"],
         ["sin_pi"],
         ["cos_pi"],
@@ -29,9 +32,9 @@ def build_random_function(min_depth, max_depth):
     min_depth = min_depth - 1
     max_depth = max_depth - 1
 
-    if max_depth < 0:
+    if max_depth <= 0:
         return random.choice(possible_fuctions[:2])
-    elif min_depth < 0:
+    elif min_depth <= 0:
         f = random.choice(possible_fuctions)
     else:
         f = random.choice(possible_fuctions[2:])
@@ -47,6 +50,8 @@ def build_random_function(min_depth, max_depth):
         f.append(build_random_function(min_depth, max_depth))
     elif f == ["prod"]:
         f.append(build_random_function(min_depth, max_depth))
+        f.append(build_random_function(min_depth, max_depth))
+    elif f == ["x/2"]:
         f.append(build_random_function(min_depth, max_depth))
 
     return f
@@ -80,6 +85,8 @@ def evaluate_random_function(f, x, y):
         return .5*(evaluate_random_function(f[1], x, y) + evaluate_random_function(f[2], x, y))
     elif f[0] == "prod":
         return (evaluate_random_function(f[1], x, y) * evaluate_random_function(f[2], x, y))
+    elif f[0] == "x/2":
+        return evaluate_random_function(f[1], x, y) / 2.0
 
 
 def remap_interval(val, input_interval_start, input_interval_end, output_interval_start, output_interval_end):
@@ -107,7 +114,7 @@ def remap_interval(val, input_interval_start, input_interval_end, output_interva
     """
     input_range = input_interval_end - input_interval_start
     output_range = output_interval_end - output_interval_start
-    return (float(float(val - input_interval_start) * output_range) / input_range) + output_interval_start
+    return ((float(val - input_interval_start) * output_range) / input_range) + output_interval_start
 
 
 def color_map(val):
@@ -161,9 +168,9 @@ def generate_art(filename, x_size=350, y_size=350):
     green_function = build_random_function(7, 9)
     blue_function = build_random_function(7, 9)
 
-    print red_function
-    print blue_function
-    print green_function
+    # print red_function
+    # print blue_function
+    # print green_function
 
     # Create image and loop over all pixels
     im = Image.new("RGB", (x_size, y_size))
