@@ -67,10 +67,28 @@ def snow_flake(t, length, level):
 		snow_flake_side(t, length, level)
 		rt(t, 60)
 
-def recursive_tree(t, brance_length, level):
+def recursive_tree(t, branch_length, level):
 	if level == 0:
 		rt(t, 90)
-		
+		fd(t, branch_length)
+
+	else:
+		wallace = Turtle()
+		wallace.x = t.x
+		wallace.y = t.y
+		wallace.heading = t.heading
+		lt(wallace, 30)
+		recursive_tree(wallace, branch_length * 0.6, level - 1)
+		wallace.undraw()
+		bk(t, branch_length/3.0)
+		herb = Turtle()
+		herb.x = t.x
+		herb.y = t.y
+		herb.heading = t.heading
+		rt(herb, 40)
+		recursive_tree(herb, branch_length * 0.64,  level-1)
+		herb.undraw()
+
 
 
 #def circle(t, length):
@@ -93,6 +111,7 @@ def recursive_tree(t, brance_length, level):
 #square(bob,  90)
 #polygon(bob, 100, 5)
 bob.delay = .000001
+recursive_tree(bob, 1000, 10)
 #snow_flake(bob, 100, 5)
 #circle(bob, 90)
 #arc(bob, 90, 90)
