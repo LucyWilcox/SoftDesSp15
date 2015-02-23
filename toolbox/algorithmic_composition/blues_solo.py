@@ -53,3 +53,4 @@ m.add(2.25, 0, solo)
 m.add(0,0, backing_track)
 m.getStream(500.0) >> "slow_blues.wav"
 solo >> "blues_solo.wav"
+    
