@@ -1,7 +1,9 @@
+"""A Sentiment Analysis of Gothic Fiction:
+This program calls a list of book from a Project Gutenburg
+Mirror site and analyzies their sentiment over the span of the
+book and plots it.
 """
 
-
-"""
 import string
 from pattern.web import *
 from pattern.en import *
@@ -31,8 +33,8 @@ def remove_gute(book):
 
 def split_to_parts(book):
     """Splits book into five parts
-    book: 
-
+    book: a list of all words in the book
+    returns: a list of 5 lists containing segments of the book 
     """
     segment_len = len(book) / 5
     segment_list = []
@@ -43,8 +45,10 @@ def split_to_parts(book):
 
 
 def group_to_string(list_of_words):
-    """
-
+    """Turns list of words in a single string of text (with punctuation
+    and everything) so it can later be analyzed for sentiment.
+    list_of_words: a list of lists of words
+    returns: a list of 5 strings
     """
     book_strings = []
     for i in range(0, 5):
@@ -67,7 +71,7 @@ def get_sentiment(five_strings):
 
 def all_sentiments():
     """Loops through each book, calls previous functions on it, heart of data mining code
-    return: list of list of sentiments for each segment of each book
+    returns: list of list of sentiments for each segment of each book
     """
     the_picture_of_dorian_grey = URL('http://www.gutenberg.lib.md.us/1/7/174/174.txt').download()
     the_yellow_wallpaper = URL('http://www.gutenberg.lib.md.us/1/9/5/1952/1952.txt').download()
@@ -97,12 +101,21 @@ def all_sentiments():
 
 
 def plot_sentiments(sentiments):
+    """Plots sentiments of all books
+    sentiments: list of list of the sentiment for each
+        segment of each book
     """
-
-    """
-    x = [1, 2, 3, 4, 5]
-    plt.plot(x, sentiments[0], 'ro', x, sentiments[1], 'go', x, sentiments[2], 'bo', x, sentiments[3], 'ko', x, sentiments[4], 'mo')
+    plt.plot(
+        x, sentiments[0], 'r',
+        x, sentiments[1], 'g',
+        x, sentiments[2], 'b',
+        x, sentiments[3], 'k',
+        x, sentiments[4], 'm'
+        )
     plt.axis([0, 6, 0, 0.25])
+    plt.title("Change of Sentiments Over Text")
+    plt.ylabel("sentiment")
+    plt.xlabel("segment of text")
     plt.show()
 
 sentiments = all_sentiments()
