@@ -5,32 +5,20 @@
 import string
 from pattern.web import *
 from pattern.en import *
+import matplotlib.pyplot as plt
 
-the_picture_of_dorian_grey = URL('http://www.gutenberg.lib.md.us/1/7/174/174.txt').download()
-the_yellow_wallpaper = URL('http://www.gutenberg.lib.md.us/1/9/5/1952/1952.txt').download()
-frankenstein = URL('http://www.gutenberg.lib.md.us/8/84/84.txt').download()
-turn_of_the_screw = URL('http://www.gutenberg.lib.md.us/2/0/209/209.txt').download()
-dracula = URL('http://www.gutenberg.lib.md.us/3/4/345/345.txt').download()
-book = dracula
-
-#print sentiment(the_picture_of_grey)
-# def text_processing(book):
-#     all_words = []
-#     for line in book:
-#         #words = line.strip()
-#         all_words.append(line)
-#     return all_words
 
 def book_to_list(book):
-    """
-
+    """Takes the book and breaks it into a list of words
+    book: string
+    returns: list of strings
     """
     words = book.split()
     return words
 
 
 def remove_gute(book):
-    """Removes header and footer from project gutenberg books.
+    """Removes Project Gutenburg header and footer from project gutenberg books.
     book: list of strings
     returns: 
     """
@@ -42,7 +30,8 @@ def remove_gute(book):
  
 
 def split_to_parts(book):
-    """
+    """Splits book into five parts
+    book: 
 
     """
     segment_len = len(book) / 5
@@ -51,12 +40,6 @@ def split_to_parts(book):
         segment_list.append(book[i * segment_len: (i + 1) * segment_len])
 
     return segment_list
-
-    # segment_1 = book[0:segment_len]
-    # segment_2 = book[segment_len: 2 * segment_len]
-    # segment_3 = book[2 * segment_len: 3 * segment_len]
-    # segment_4 = book[3 * segment_len: segment_len *4]
-    # segment_5 = book[4* segment_len:]
 
 
 def group_to_string(list_of_words):
@@ -69,9 +52,11 @@ def group_to_string(list_of_words):
 
     return book_strings
 
-def get_sentiment(five_strings):
-    """
 
+def get_sentiment(five_strings):
+    """Takes the book which is split into five segments and finds sentiment
+    five_strings: list of five string
+    returns: list containing the sentiment of each segment
     """
     sentiment_list = []
     for i in range(0, 5):
@@ -80,22 +65,45 @@ def get_sentiment(five_strings):
     return sentiment_list
 
 
-all_words = book_to_list(book)
-words = remove_gute(all_words)
-five_lists = split_to_parts(words)
-five_strings = group_to_string(five_lists)
-sentiments = get_sentiment(five_strings)
-print sentiments
+def all_sentiments():
+    """Loops through each book, calls previous functions on it, heart of data mining code
+    return: list of list of sentiments for each segment of each book
+    """
+    the_picture_of_dorian_grey = URL('http://www.gutenberg.lib.md.us/1/7/174/174.txt').download()
+    the_yellow_wallpaper = URL('http://www.gutenberg.lib.md.us/1/9/5/1952/1952.txt').download()
+    frankenstein = URL('http://www.gutenberg.lib.md.us/8/84/84.txt').download()
+    turn_of_the_screw = URL('http://www.gutenberg.lib.md.us/2/0/209/209.txt').download()
+    dracula = URL('http://www.gutenberg.lib.md.us/3/4/345/345.txt').download()
 
-#names = open('class_names.txt')
-# name_sentiment = []
+    books = [
+    the_picture_of_dorian_grey,
+    the_yellow_wallpaper,
+    frankenstein,
+    turn_of_the_screw,
+    dracula
+    ]
 
-# g = Bing()
-# for name in names:
-#   for result in g.search(name):
-#       text = result.text.encode('utf8')
-#       print text
-#       name_sentiment[result] = sentiment(text)
+    sentiment_list = []
 
-#   print sentiment(text)
+    for i in range(len(books)):
+        book = books[i]
+        all_words = book_to_list(book)
+        words = remove_gute(all_words)
+        five_lists = split_to_parts(words)
+        five_strings = group_to_string(five_lists)
+        sentiments = get_sentiment(five_strings)
+        sentiment_list.append(sentiments)
+    return sentiment_list
 
+
+def plot_sentiments(sentiments):
+    """
+
+    """
+    x = [1, 2, 3, 4, 5]
+    plt.plot(x, sentiments[0], 'ro', x, sentiments[1], 'go', x, sentiments[2], 'bo', x, sentiments[3], 'ko', x, sentiments[4], 'mo')
+    plt.axis([0, 6, 0, 0.25])
+    plt.show()
+
+sentiments = all_sentiments()
+plot_sentiments(sentiments)
