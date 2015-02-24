@@ -113,10 +113,10 @@ def plot_sentiments(sentiments, r):
     sentiments: list of list of the sentiment for each
         segment of each book
     """
-    colors = ['r', 'g', 'b,', 'k', 'm']
+    colors = ['r', 'g', 'b', 'k', 'm']
     for i in range(5):
         plt.plot(sentiments[i], colors[i])
-    plt.axis([0, r-1, 0, 0.25])
+    plt.axis([0, r-1, -0.05, 0.2])
     plt.title("Change of Sentiments Over Text")
     plt.ylabel("sentiment")
     plt.xlabel("segment of text")
@@ -124,7 +124,7 @@ def plot_sentiments(sentiments, r):
 
 
 if __name__ == '__main__':
-    r = 5
+    r = 10
     books = get_books()
     sentiments = all_sentiments(books, r)
     plot_sentiments(sentiments, r)
