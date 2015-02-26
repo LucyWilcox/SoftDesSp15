@@ -31,9 +31,10 @@ def remove_gute(book):
     start = indices[1] + 1
     end = indices[2]  
     book = book[start:end]
+
     return book
  
-
+ 
 def split_to_parts(book, r):
     """Splits book into r parts
     book: a list of all words in the book
@@ -70,6 +71,7 @@ def get_sentiment(strings, r):
         sentiment_list.append(sentiment(strings[i]))
     sentiment_list =  [x[0] for x in sentiment_list]
     return sentiment_list
+
 
 def get_books():
     """Creates a list of books from a Project Gutenburg mirror
