@@ -36,19 +36,18 @@ add_note(solo, bass, blues_scale[0], 1.0, beats_per_minute, 1.0)
 curr_note = 0
 add_note(solo, bass, blues_scale[curr_note], 1.0, beats_per_minute, 1.0)
 licks = [[[1, 0.5], [1, 0.5], [1, 0.5], [1, 0.5]], [[-1, 0.5], [-1, 0.5], [-1, 0.5], [-1, 0.5]], [[1, 0.75], [-1, 0.5], [-1, 0.25], [1, 0.5]], [[1, 0.5*1.1], [1, 0.5*0.9], [1, 0.5*1.1], [1, 0.5*0.9]], [[-1, 0.5*1.1], [1, 0.5*0.9], [-1, 0.5*1.1], [1, 0.5*0.9]],[[1, 0.9], [1, 0.1], [-1, 0.3], [1, 0.7]], [[1, 0.5*1.1], [1, 0.5*0.9], [1, 0.5*1.1], [1, 0.5*0.9]], [[-1, 0.5*1.1], [1, 0.5*0.9], [-1, 0.5*1.3], [1, 0.5*0.7]], [[1, 0.5*1.2], [-1, 0.5*0.8], [-1, 0.5*1.2], [-1, 0.5*0.8]], [[-1, 0.5*1.1], [-1, 0.5*0.9], [-1, 0.5*1.1], [-1, 0.5*0.9]]]
-for i in range(len(licks)):
+for i in licks:
     lick = choice(licks)
     for note in lick:
         curr_note += note[0]
-        if curr_note > 0:
-            if curr_note < len(blues_scale) -1:
-                add_note(solo, bass, blues_scale[curr_note], note[1], beats_per_minute, 1.0)
+        if curr_note > 0 and curr_note < len(blues_scale) -1:
+            add_note(solo, bass, blues_scale[curr_note], note[1], beats_per_minute, 1.0)
 
 backing_track = AudioStream(sampling_rate, 1)
 Wavefile.read('backing.wav', backing_track)
 m = Mixer()
-solo *= 0.4
-backing_track *= 0.2
+solo *= 0.6
+backing_track *= 0.4
 m.add(2.25, 0, solo)
 m.add(0,0, backing_track)
 m.getStream(500.0) >> "slow_blues.wav"

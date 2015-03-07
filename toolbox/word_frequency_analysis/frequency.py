@@ -23,8 +23,7 @@ def get_word_list(file_name):
         words_in_line = string.split(line)
         for word in words_in_line:
             word = word.lower()
-            for char in punctuation:
-                word = word.replace(char, "")
+            word.strip(punctuation)
             if word not in count:
                 count[word] = 1
             else:
