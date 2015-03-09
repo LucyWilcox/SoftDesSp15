@@ -62,7 +62,7 @@ class GridWorld():
             if self.actors[swamp_coord].unremovable == False:
                 self.actors.pop(swamp_coord, None)
         else:
-            self.actors[swamp_coord] = ObstacleTile( swamp_coord, self, './images/swamp.jpg', is_unpassable = False, terrain_cost = 4)
+            self.actors[swamp_coord] = ObstacleTile( swamp_coord, self, './images/swamp.jpg', is_unpassable = False, terrain_cost =3)
 
     def _add_lava(self, mouse_pos):
         lava_coord = (mouse_pos[0]/50, mouse_pos[1]/50)

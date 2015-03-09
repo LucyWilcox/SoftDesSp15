@@ -4,7 +4,7 @@ class DNASequence(object):
         """ constructs a DNASequence with the specified nucleotides.
              nucleotides: the nucleotides represented as a string of
                           capital letters consisting of A's, C's, G's, and T's """
-        pass
+        self.seq = nucleotides
  
     def __str__(self):
         """ Returns a string containing the nucleotides in the DNASequence
@@ -12,7 +12,7 @@ class DNASequence(object):
         >>> print seq
         TTTGCC
         """
-        pass
+        return self.seq
 
     def get_reverse_complement(self):
         """ Returns the reverse complement DNA sequence represented
@@ -25,7 +25,31 @@ class DNASequence(object):
             >>> print type(rev)
             <class '__main__.DNASequence'>
         """
-        pass
+        def get_complement(nucleotide):
+            if nucleotide == 'A':
+                nucleotide_complement = 'T'
+                return nucleotide_complement
+            elif nucleotide == 'T':
+                nucleotide_complement = 'A'
+                return nucleotide_complement
+            elif nucleotide == 'C': 
+                nucleotide_complement = 'G'
+                return nucleotide_complement
+            elif nucleotide == 'G':
+                nucleotide_complement = 'C'
+                return nucleotide_complement
+            else:
+                return "error"
+
+        seq = self.seq
+        full_complement = ""
+        for i in range(len(seq)):
+            new_complement = get_complement(seq[i])
+            full_complement = new_complement + full_complement
+
+        self.rev = DNASequence(full_complement)
+        return self.rev
+
 
     def get_proportion_ACGT(self):
         """ Computes the proportion of nucleotides in the DNA sequence
@@ -40,7 +64,21 @@ class DNASequence(object):
         >>> print (d['A'], d['C'], d['G'], d['T'])
         (0.4, 0.2, 0.3, 0.1)
         """
-        pass
+        seq = self.seq
+        length =float(len(seq))
+        d = dict()
+        for letter in seq:
+            if letter not in d:
+                d[letter] = 1
+            else:
+                d[letter] += 1
+
+        for key, value in d.items():
+            d[key] = value/length
+
+        return d
+
+
 
 if __name__ == '__main__':
     import doctest
