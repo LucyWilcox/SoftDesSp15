@@ -1,0 +1,11 @@
+Lucy Wilcox
+Machine Learning Toolbox
+
+1. The general curve is upwards. With more trials it becomes smoother in it's upwards trend.
+
+2. No part of the curve seems to be particularly noisy. It's a bit noisier at the begining because it has less data/less of a trend to base the curve off of.
+
+3. More trials means smoother curve, and 'smooth' is sort of subjective, but I'd say 3000 gives a faily smooth curve. 
+
+4. When C is larger, the data is smoother and has an upwards curve. When it is smaller it gets very noisy and has little correlation.
+
