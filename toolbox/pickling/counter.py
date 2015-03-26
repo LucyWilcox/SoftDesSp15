@@ -29,13 +29,14 @@ def update_counter(file_name, reset=False):
 	>>> update_counter('blah2.txt')
 	2
 	"""
-	if reset == True:
-		c = 1
-		file_name = open(file_name, 'w')
-		dump(c, file_name)
-	else:
-		file_name = open(file_name, 'r+')
-		c = load(file_name) + 1
+	c = 1
+	if reset == False:
+		f= open(file_name, 'r+')
+		c = load(f) + 1
+		f.close()
+
+	f = open(file_name, 'w')
+	dump(c, f)
 	return c
 
 
