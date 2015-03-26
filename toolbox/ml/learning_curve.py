@@ -9,7 +9,7 @@ from sklearn.linear_model import LogisticRegression
 data = load_digits()
 #print data.DESCR
 
-num_trials = 10
+num_trials = 100
 train_percentages = range(5,95,5)
 test_accuracies = numpy.zeros(len(train_percentages))
 
@@ -35,8 +35,6 @@ for size in train_percentages:
 		model = LogisticRegression(C=10**-10)
 		model.fit(X_train, y_train)
 		accumulated_accuracy += model.score(X_test, y_test)
-	#print "Train accuracy %f" %model.score(X_train,y_train)
-	#print "Test accuracy %f"%model.score(X_test,y_test)
 	test_accuracies[size/5.0 - 1] = accumulated_accuracy/num_trials
 
 
